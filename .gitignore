@@ -7,4 +7,4 @@ __pycache__/
 *.env
 *.venv
 .DS_Store
-results/*.png
+Numbers/results/*.png
