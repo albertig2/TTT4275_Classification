@@ -4,7 +4,7 @@ from os.path import dirname, join
 import seaborn as sns
 from sklearn import metrics
 
-def plot_confusion_matrix_and_error_rates(test_labels, predicted_labels, suptitle, filename, labels=range(10)):
+def generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, suptitle, filename, labels=range(10)):
     confusion = metrics.confusion_matrix(test_labels, predicted_labels, labels=labels)
     error_rate = np.mean(np.array(test_labels) != np.array(predicted_labels))
     
@@ -17,7 +17,7 @@ def plot_confusion_matrix_and_error_rates(test_labels, predicted_labels, suptitl
     plt.savefig(join(dirname(dirname(__file__)), 'results', filename))
     
     
-def plot_number_images(images, suptitle, filename):
+def generate_number_images(images, suptitle, filename):
     figure, axes = plt.subplots(2, 5, figsize=(10,4))
     for c, ax in enumerate(axes.flat):
         if images[c] is not None:
