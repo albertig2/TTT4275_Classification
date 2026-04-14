@@ -4,6 +4,7 @@ from utilities import classification, evaluation, preprocessing
 def nearest_neighbor_with_whole_training_set_as_template(test, test_labels, template, template_labels):  
     predicted_labels = classification.nearest_neighbor_classification_with_templates(test, template, template_labels, chunk_size=1000)
     evaluation.generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for Nearest-Neighbor Classifier the whole training set as template", "confusion_matrix_whole_training_set.png")
+    
     num_test = len(test)
     num_classes = 10
     misclassified = [None] * num_classes
