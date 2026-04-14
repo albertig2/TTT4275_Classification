@@ -1,6 +1,6 @@
 import numpy as np
 
-def nearest_neighbor_classification_with_templates(test, template, template_labels, chunk_size=1000):
+def nearest_neighbor_classification_with_templates(test, template, template_labels, chunk_size=1000) -> np.ndarray:
     num_test = len(test)
     predicted_labels = np.zeros(num_test)
     template_norm = np.sum(template**2, axis=1)
