@@ -15,6 +15,6 @@ for i in range(DIM):
     plt.hist(c3[:, i], alpha = 0.5, label="Class 3")
     plt.title("Feature " + str(i))
     plt.legend()
-    plt.savefig("../results/Feature " + str(i))
+    plt.savefig("../TTT4275_CLASSIFICATION/Iris/results/Feature " + str(i))
     plt.cla()
 
