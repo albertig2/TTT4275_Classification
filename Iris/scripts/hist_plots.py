@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-c1 = np.loadtxt("Iris/class_1", delimiter=",")
-c2 = np.loadtxt("Iris/class_2", delimiter=",")
-c3 = np.loadtxt("Iris/class_3", delimiter=",")
+c1 = np.loadtxt("Iris/data/class_1", delimiter=",")
+c2 = np.loadtxt("Iris/data/class_2", delimiter=",")
+c3 = np.loadtxt("Iris/data/class_3", delimiter=",")
 
 print(np.shape(c1))
 DIM = 4
@@ -15,6 +15,6 @@ for i in range(DIM):
     plt.hist(c3[:, i], alpha = 0.5, label="Class 3")
     plt.title("Feature " + str(i))
     plt.legend()
-    plt.savefig("Plots/Feature " + str(i))
+    plt.savefig("../results/Feature " + str(i))
     plt.cla()
 

@@ -1,9 +1,10 @@
 from sklearn import neighbors
 from utilities import classification, evaluation, preprocessing
+from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
 
 def nearest_neighbor_with_whole_training_set_as_template(test, test_labels, template, template_labels):  
     predicted_labels = classification.nearest_neighbor_classification_with_templates(test, template, template_labels, chunk_size=1000)
-    evaluation.generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for Nearest-Neighbor Classifier the whole training set as template", "confusion_matrix_whole_training_set.png")
+    generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for Nearest-Neighbor Classifier the whole training set as template", "../Numbers/results/confusion_matrix_whole_training_set.png", range(10))
     
     num_test = len(test)
     num_classes = 10
@@ -30,7 +31,7 @@ def nearest_neighbor_with_10M_templates(test, test_labels, train, train_labels):
     train_dictionary = preprocessing.separate_classes(train, train_labels)
     template, template_labels = preprocessing.create_templates(train_dictionary, M=64, num_classes=10)
     predicted_labels = classification.nearest_neighbor_classification_with_templates(test, template, template_labels, chunk_size=1000)  
-    evaluation.generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for Nearest-Neighbor Classifier with 10*64 templates", "confusion_matrix_10M_templates.png")    
+    generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for Nearest-Neighbor Classifier with 10*64 templates", "../Numbers/results/confusion_matrix_10M_templates.png", range(10))    
 
 
 def k_nearest_neighbor_with_10M_templates(test, test_labels, train, train_labels, k=7):
@@ -41,4 +42,4 @@ def k_nearest_neighbor_with_10M_templates(test, test_labels, train, train_labels
     knn.fit(template, template_labels)
 
     predicted_labels = knn.predict(test)
-    evaluation.generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for KNN Classifier with 10*64 templates (K=7)", "confusion_matrix_KNN_10M_templates.png")
+    generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, "Confusion Matrix for KNN Classifier with 10*64 templates (K=7)", "../Numbers/results/confusion_matrix_KNN_10M_templates.png", range(10))

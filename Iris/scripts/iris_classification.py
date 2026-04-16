@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay 
 
 
-c1 = np.loadtxt("Iris/class_1", delimiter=",")
-c2 = np.loadtxt("Iris/class_2", delimiter=",")
-c3 = np.loadtxt("Iris/class_3", delimiter=",")
+c1 = np.loadtxt("Iris/data/class_1", delimiter=",")
+c2 = np.loadtxt("Iris/data/class_2", delimiter=",")
+c3 = np.loadtxt("Iris/data/class_3", delimiter=",")
 
 
 N_tr = 30
