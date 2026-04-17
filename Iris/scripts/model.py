@@ -19,7 +19,7 @@ def grad_MSE(G, T, X):
     Input: the model's estimate G, the wanted target T and the training data X
     Output: the gradient of MSE with respect to W.
     """
-    delta = (G - T) * G * (1 - G)  # (C, N) elementwise
+    delta = (G - T) * G * (1 - G)
     return delta @ X.T 
 
 def train_model(X, T):
@@ -28,21 +28,21 @@ def train_model(X, T):
     Output: Trained matrix W
     """
     DIM = np.shape(X)[0] - 1; C = np.shape(T)[0]
-    W = np.zeros((C, DIM + 1)) # G[i] = C x 1 and X[i] = (DIM + 1) x 1 and G[i]= WX[i] => W = C x (DIM + 1)
-    G = 1 / (1 + np.exp(-W @ X)) # Same shape as W @ X naturally. Start with the G-values that correspond to W0 
+    W = np.zeros((C, DIM + 1)) 
+    G = 1 / (1 + np.exp(-W @ X))
 
-    alpha = 0.001 # Tuned this value...
-    tresh = 10**(-6) #* 10 # Stop when we no longer get that previous MSE is more than tresh * 100% greater than the new one..
+    alpha = 0.001
+    tresh = 10**(-6)
     prev_err = 1000000; curr_err = 0.9*prev_err
-    rel_err = (prev_err - curr_err) / curr_err #Checks improvement in MSE
+    rel_err = (prev_err - curr_err) / curr_err
 
-    while (rel_err > tresh):# > tresh):
+    while (rel_err > tresh):
         W = W - alpha * grad_MSE(G, T, X)
         Z = W @ X
         G = 1 / (1 + np.exp(-Z))
         prev_err = curr_err
         curr_err = MSE(G, T)
-        rel_err = (prev_err - curr_err) / curr_err #Checks improvement in MSE
+        rel_err = (prev_err - curr_err) / curr_err
     return W
 
 def get_predicted_classes(X, W):
@@ -75,8 +75,8 @@ def plot_feature_histograms(class_features, folder, BINS = 10):
     DIM = np.shape(class_features)[2]
     C = np.shape(class_features)[0]
 
-    for i in range(DIM): #Plot histograms for each feature
-        for j in range(C): # and each class
+    for i in range(DIM):
+        for j in range(C):
             plt.hist(class_features[j, :, i], alpha=0.8, label="Class" + str(j), bins=BINS)
         plt.title("Feature " + str(i))
         plt.legend()
