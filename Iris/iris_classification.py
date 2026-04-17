@@ -7,48 +7,54 @@ import numpy as np
 
 
 # All data about each feature of each class
-class1_features = np.loadtxt("Iris/data/class_1", delimiter=",")
-class2_features = np.loadtxt("Iris/data/class_2", delimiter=",")
-class3_features = np.loadtxt("Iris/data/class_3", delimiter=",")
 
-#Seperate into training and test data
+class_features = np.loadtxt("Iris/data/iris.data", delimiter=",", usecols=(0, 1, 2, 3)).reshape(3, 50, 4)
 N_training = 30; N_testing = 20
-class1_training = class1_features[:N_training]; class1_testing = class1_features[N_training:] 
-class2_training = class2_features[:N_training]; class2_testing = class2_features[N_training:]
-class3_training = class3_features[:N_training]; class3_testing = class3_features[N_training:]
 
-# Define the extended X that includes unit row vector, for each classes dataset.
-X1_all_features_training = np.column_stack((class1_training, np.ones(N_training))).T; X1_all_features_testing = np.column_stack((class1_testing, np.ones(N_testing))).T
-X2_all_features_training = np.column_stack((class2_training, np.ones(N_training))).T; X2_all_features_testing = np.column_stack((class2_testing, np.ones(N_testing))).T
-X3_all_features_training = np.column_stack((class3_training, np.ones(N_training))).T; X3_all_features_testing = np.column_stack((class3_testing, np.ones(N_testing))).T
+training_set_first_30 = class_features[:, :N_training, :].reshape(-1, 4)
+testing_set_last_20 = class_features[:, N_training:, :].reshape(-1, 4)
+X_training = np.column_stack((training_set_first_30, np.ones(3*N_training))).T
+X_testing = np.column_stack((testing_set_last_20, np.ones(3*N_testing))).T
 
-#Combine into one training set 
-X_all_features_training = np.concatenate((X1_all_features_training, X2_all_features_training, X3_all_features_training), axis=1) 
-X_all_features_testing = np.concatenate((X1_all_features_testing, X2_all_features_testing, X3_all_features_testing), axis=1)
+#For 1d) spefically
+testing_set_first_20 = class_features[:, :N_testing, :].reshape(-1, 4)
+training_set_last_30 = class_features[:, N_testing:, :].reshape(-1, 4)
+X_training_last_30 = np.column_stack((training_set_last_30, np.ones(3*N_training))).T
+X_testing_first_20 = np.column_stack((testing_set_first_20, np.ones(3*N_testing))).T
 
-C = 3 #Amount of classes
 #Define the correct target solution
-Target_all_features_training = np.zeros((3, 3*N_training)); Target_all_features_training[0, :N_training] = 1; Target_all_features_training[1, N_training:2*N_training] = 1; Target_all_features_training[2, 2*N_training:] = 1 
-Target_all_features_testing = np.zeros((3, 3*N_testing)); Target_all_features_testing[0, :N_testing] = 1; Target_all_features_testing[1, N_testing:2*N_testing] = 1; Target_all_features_testing[2, 2*N_testing:] = 1 
-Test_labels = np.zeros(N_testing*3); Test_labels[0:N_testing] = 0; Test_labels[N_testing:2*N_testing] = 1; Test_labels[2*N_testing:3*N_testing] = 2
+target_training = np.zeros((3, 3*N_training)); target_training[0, :N_training] = 1; target_training[1, N_training:2*N_training] = 1; target_training[2, 2*N_training:] = 1 
+test_labels = np.zeros(N_testing*3); test_labels[0:N_testing] = 0; test_labels[N_testing:2*N_testing] = 1; test_labels[2*N_testing:3*N_testing] = 2
+
 
 #Plot histograms to figure out which features to use for next step
-evaluation.generate_histograms_for_fetures(class1_features, class2_features, class3_features, 4)
+DIM = 4
+C = 3
+for i in range(DIM): #Plot histograms for each feature
+    for j in range(C): # and each class
+        plt.hist(class_features[j, :, i], alpha=0.8, label="Class" + str(j))
+    plt.title("Feature " + str(i))
+    plt.legend()
+    plt.savefig("../TTT4275_CLASSIFICATION/Iris/results/seperability_histograms/Histogram_feature_" + str(i))
+    plt.cla()
 
-#Train the models
-#Model using all 4 features
-W_all_features = model_training.train_model(X_all_features_training, Target_all_features_training)
-#Model using 3 features; Skipping the 0th feature as that seems to be the last valuable one.
-W_three_features = model_training.train_model(X_all_features_training[[1, 2, 3, 4], :], Target_all_features_training)
-#Model using 2 features; skipping the 0th and 1th feature as they seem to have most overlapping probability distributions.
-W_two_features = model_training.train_model(X_all_features_training[[2, 3, 4], :], Target_all_features_training)
-#Model using 1 feature; the 3rd feature seems to have the least overlap, so we choose this one...
-W_one_features = model_training.train_model(X_all_features_training[[3, 4], :], Target_all_features_training)
 
-W_matrices = [W_all_features, W_three_features, W_two_features, W_one_features]
 
-for i, W in enumerate(W_matrices):
-    predicted_labels = model_testing.get_predicted_classes(X_all_features_testing[range(i, 5), :], W)
-    generate_confusion_matrix_and_error_rates(Test_labels, predicted_labels, "Classifier performance, " + str(4 - i) + " features",f"../Iris/results/confusion_matrix_{4 -i}_features.png", range(3) )
+def train_and_evaluate(X_train, X_test, feature_subsets, test_labels, results_path):
+    for i, features in enumerate(feature_subsets):
+        W = model_training.train_model(X_train[features, :], target_training)
+        predicted_labels = model_testing.get_predicted_classes(X_test[features, :], W)
+        n_features = 4 - i
+        generate_confusion_matrix_and_error_rates(
+            test_labels, predicted_labels,
+            f"Classifier performance using {n_features} features",
+            f"{results_path}/confusion_matrix_{n_features}_features.png",
+            range(C)
+        )    
 
+features_combinations = [range(0,5), range(1, 5), range(2, 5), range(3, 5)] #iteration i uses i + 1 features. By coincidence the worst feature to use is always the one with the lowest index, so we can easily write the features like this....
+#Train ALL the models that uses the first 30 samples as a training set. Then quantify their performance.
+train_and_evaluate(X_training, X_testing, features_combinations, test_labels, "../Iris/results/default_training_set")
+#Train the model that uses the last 30 samples as a training set, and quantify performance..
+train_and_evaluate(X_training_last_30, X_testing_first_20, [features_combinations[0]], test_labels, "../Iris/results/last_30_training_set")
 
