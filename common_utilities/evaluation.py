@@ -14,4 +14,4 @@ def generate_confusion_matrix_and_error_rates(test_labels, predicted_labels, sup
     plt.ylabel("True")
     plt.suptitle(suptitle)
     plt.title(f"Error Rate: {error_rate * 100:.2f}" + "%")
-    plt.savefig(join(dirname(__file__), filename))
+    plt.savefig(join(dirname(dirname(__file__)), filename))

@@ -23,12 +23,12 @@ test_labels = np.zeros(N_testing*3); test_labels[0:N_testing] = 0; test_labels[N
 
 #Plot histograms to figure out which features to use for next step
 
-model.plot_feature_histograms(class_features, "../TTT4275_CLASSIFICATION/Iris/results/seperability_histograms/", 8)
+model.plot_feature_histograms(class_features, "seperability_histograms", 8)
   
 
 features_combinations = [range(0,5), range(1, 5), range(2, 5), range(3, 5)] #iteration i uses i + 1 features. By coincidence the worst feature to use is always the one with the lowest index, so we can easily write the features like this....
 #Train ALL the models that uses the first 30 samples as a training set. Then quantify their performance.
-model.train_and_evaluate(X_training, X_testing, features_combinations, target_training, test_labels, "../Iris/results/default_training_set")
+model.train_and_evaluate(X_training, X_testing, features_combinations, target_training, test_labels, "Iris/results/default_training_set")
 #Train the model that uses the last 30 samples as a training set, and quantify performance..
-model.train_and_evaluate(X_training_last_30, X_testing_first_20, [features_combinations[0]], target_training, test_labels, "../Iris/results/last_30_training_set")
+model.train_and_evaluate(X_training_last_30, X_testing_first_20, [features_combinations[0]], target_training, test_labels, "Iris/results/last_30_training_set")
 

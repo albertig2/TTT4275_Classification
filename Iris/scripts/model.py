@@ -1,6 +1,7 @@
 from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
 import matplotlib.pyplot as plt
 import numpy as np
+from os.path import dirname, join
 
 
 def MSE(G, T):
@@ -67,7 +68,7 @@ def train_and_evaluate(X_train, X_test, feature_subsets, target_training, test_l
             range(C)
         )
 
-def plot_feature_histograms(class_features, rel_path, BINS = 10):
+def plot_feature_histograms(class_features, folder, BINS = 10):
     """
     Plots the histograms for each feature of a C x N x D input.
     """
@@ -79,5 +80,5 @@ def plot_feature_histograms(class_features, rel_path, BINS = 10):
             plt.hist(class_features[j, :, i], alpha=0.8, label="Class" + str(j), bins=BINS)
         plt.title("Feature " + str(i))
         plt.legend()
-        plt.savefig(rel_path + "/Histogram_feature_" + str(i))
+        plt.savefig(join(dirname(dirname(__file__)), 'results', folder, "Histogram_feature_" + str(i)))
         plt.cla()
