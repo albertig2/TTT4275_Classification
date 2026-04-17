@@ -1,8 +1,8 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay 
 from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
-from utilities import model_training, model_testing
+from Iris.utilities import model_training, model_testing
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 # All data about each feature of each class
 class1_features = np.loadtxt("Iris/data/class_1", delimiter=",")
@@ -19,6 +19,7 @@ class3_training = class3_features[:N_training]; class3_testing = class3_features
 X1_all_features_training = np.column_stack((class1_training, np.ones(N_training))).T; X1_all_features_testing = np.column_stack((class1_testing, np.ones(N_testing))).T
 X2_all_features_training = np.column_stack((class2_training, np.ones(N_training))).T; X2_all_features_testing = np.column_stack((class2_testing, np.ones(N_testing))).T
 X3_all_features_training = np.column_stack((class3_training, np.ones(N_training))).T; X3_all_features_testing = np.column_stack((class3_testing, np.ones(N_testing))).T
+
 #Combine into one training set 
 X_all_features_training = np.concatenate((X1_all_features_training, X2_all_features_training, X3_all_features_training), axis=1) 
 X_all_features_testing = np.concatenate((X1_all_features_testing, X2_all_features_testing, X3_all_features_testing), axis=1)

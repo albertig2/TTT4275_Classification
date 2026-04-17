@@ -1,6 +1,6 @@
 from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
+from Numbers.utilities import classification, evaluation, preprocessing
 from sklearn import neighbors
-from utilities import classification, evaluation, preprocessing
 
 def nearest_neighbor_with_whole_training_set_as_template(test, test_labels, template, template_labels):  
     predicted_labels = classification.nearest_neighbor_classification_with_templates(test, template, template_labels, chunk_size=1000)

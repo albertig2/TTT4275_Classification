@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 c1 = np.loadtxt("Iris/data/class_1", delimiter=",")

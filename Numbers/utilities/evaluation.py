@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
 from os.path import dirname, join
+import matplotlib.pyplot as plt
 
 def generate_number_images(images, suptitle, filename):
     figure, axes = plt.subplots(2, 5, figsize=(10,4))
