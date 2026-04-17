@@ -1,4 +1,4 @@
-from Numbers.utilities import preprocessing
+from Numbers.utilities import evaluation, preprocessing
 from os.path import dirname, join
 from scripts import nearest_neighbor
 import scipy.io as sio
@@ -15,6 +15,8 @@ test = data_all['testv']
 test_labels = data_all['testlab'].flatten()
 num_test = int(data_all['num_test'][0][0])
 
-nearest_neighbor.nearest_neighbor_with_whole_training_set_as_template(test, test_labels, train, train_labels)
+predicted_labels = nearest_neighbor.nearest_neighbor_with_whole_training_set_as_template(test, test_labels, train, train_labels)
+evaluation.generating_correctly_and_misclassified_images(test, test_labels, predicted_labels)
+
 nearest_neighbor.nearest_neighbor_with_10M_templates(test, test_labels, template, template_labels)
 nearest_neighbor.k_nearest_neighbor_with_10M_templates(test, test_labels, template, template_labels, k=7)
