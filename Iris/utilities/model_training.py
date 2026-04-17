@@ -1,7 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay 
-from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
 
 
 def MSE(G, T):
