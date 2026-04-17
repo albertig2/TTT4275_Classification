@@ -1,5 +1,5 @@
-import numpy as np
 from sklearn import cluster
+import numpy as np
 
 def separate_classes(train, train_labels) -> dict:
     train_dictionary = dict()

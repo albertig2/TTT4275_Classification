@@ -1,8 +1,10 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay 
 from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
-from utilities import model_training, model_testing
+from Iris.scripts import model_training, model_testing
+from Iris.utilities import evaluation
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 
 # All data about each feature of each class
 

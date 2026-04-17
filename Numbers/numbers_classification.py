@@ -1,6 +1,6 @@
 from os.path import dirname, join
-import scipy.io as sio
 from scripts import nearest_neighbor
+import scipy.io as sio
 
 data_all_mat = join(dirname(__file__), 'data', 'data_all.mat')
 data_all = sio.loadmat(data_all_mat, spmatrix=False, mat_dtype=True)
