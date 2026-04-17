@@ -2,13 +2,8 @@ from sklearn import cluster
 import numpy as np
 
 def separate_classes(train, train_labels) -> dict:
-    train_dictionary = dict()
-    for i, sample in enumerate(train):
-        label = train_labels[i]
-        if label not in train_dictionary.keys():
-            train_dictionary[label] = []
-        train_dictionary[label].append(sample)
-    return train_dictionary
+    classes = np.unique(train_labels)
+    return {c: train[train_labels == c] for c in classes}
 
 
 def create_templates(train_dictionary, M=64, num_classes=10) -> tuple[np.ndarray, np.ndarray]:
