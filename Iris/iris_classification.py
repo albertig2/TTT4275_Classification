@@ -28,15 +28,8 @@ test_labels = np.zeros(N_testing*3); test_labels[0:N_testing] = 0; test_labels[N
 
 
 #Plot histograms to figure out which features to use for next step
-DIM = 4
-C = 3
-for i in range(DIM): #Plot histograms for each feature
-    for j in range(C): # and each class
-        plt.hist(class_features[j, :, i], alpha=0.8, label="Class" + str(j))
-    plt.title("Feature " + str(i))
-    plt.legend()
-    plt.savefig("../TTT4275_CLASSIFICATION/Iris/results/seperability_histograms/Histogram_feature_" + str(i))
-    plt.cla()
+dimention = 4; classes = 3
+evaluation.generate_histograms_for_fetures(class_features, dimention, classes)
 
 
 
@@ -49,7 +42,7 @@ def train_and_evaluate(X_train, X_test, feature_subsets, test_labels, results_pa
             test_labels, predicted_labels,
             f"Classifier performance using {n_features} features",
             f"{results_path}/confusion_matrix_{n_features}_features.png",
-            range(C)
+            range(classes)
         )    
 
 features_combinations = [range(0,5), range(1, 5), range(2, 5), range(3, 5)] #iteration i uses i + 1 features. By coincidence the worst feature to use is always the one with the lowest index, so we can easily write the features like this....

@@ -8,5 +8,7 @@ __pycache__/
 *.venv
 .DS_Store
 Numbers/results/*.png
-Iris/results/*.png
+Iris/results/default_training_set/*.png
+Iris/results/last_30_training_set/*.png
+Iris/results/seperability_histograms/*.png
 .vscode/settings.json

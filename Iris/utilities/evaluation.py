@@ -3,14 +3,12 @@ import numpy as np
 from os.path import dirname, join
 
 
-def generate_histograms_for_fetures(class1_features, class2_features, class3_features, dimention):
-    for i in range(dimention):
-        plt.hist(class1_features[:, i], alpha=0.5, label="Class 1")
-        plt.hist(class2_features[:, i], alpha = 0.5, label="Class 2")
-        plt.hist(class3_features[:, i], alpha = 0.5, label="Class 3")
-        plt.title("Feature " + str(i + 1))
+def generate_histograms_for_fetures(class_features, dimention, classes):
+    for i in range(dimention): #Plot histograms for each feature
+        for j in range(classes): # and each class
+            plt.hist(class_features[j, :, i], alpha=0.8, label="Class" + str(j))
+        plt.title("Feature " + str(i))
         plt.legend()
-        plt.savefig(join(dirname(dirname(__file__)), 'results/Feature_' + str(i + 1) + ".png"))
+        plt.savefig(join(dirname(dirname(__file__)), "results/seperability_histograms/Histogram_feature_" + str(i) + ".png" ))
         plt.cla()
-        
         
