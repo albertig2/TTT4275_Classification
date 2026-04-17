@@ -21,7 +21,6 @@ def grad_MSE(G, T, X):
     delta = (G - T) * G * (1 - G)  # (C, N) elementwise
     return delta @ X.T 
 
-#Model-training
 def train_model(X, T):
     """
     Trains the model W based on the input data X and the solution provided by T.
@@ -43,11 +42,7 @@ def train_model(X, T):
         prev_err = curr_err
         curr_err = MSE(G, T)
         rel_err = (prev_err - curr_err) / curr_err #Checks improvement in MSE
-        #print(rel_err*100, "%")
     return W
-
-
-
 
 def get_predicted_classes(X, W):
     """
@@ -71,7 +66,6 @@ def train_and_evaluate(X_train, X_test, feature_subsets, target_training, test_l
             f"{results_path}/confusion_matrix_{n_features}_features.png",
             range(C)
         )
-
 
 def plot_feature_histograms(class_features, rel_path, BINS = 10):
     """

@@ -1,6 +1,5 @@
-import model
+from scripts import model
 import numpy as np
-
 
 
 # All data about each feature of each class
