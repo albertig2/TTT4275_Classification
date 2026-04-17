@@ -1,7 +1,6 @@
 from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy as np
 
 
 def MSE(G, T):
