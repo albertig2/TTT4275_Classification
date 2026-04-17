@@ -1,7 +1,9 @@
 from common_utilities.evaluation import generate_confusion_matrix_and_error_rates
-from Iris.utilities import model_training, model_testing
+from Iris.scripts import model_training, model_testing
+from Iris.utilities import evaluation
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 
 # All data about each feature of each class
@@ -31,16 +33,7 @@ Target_all_features_testing = np.zeros((3, 3*N_testing)); Target_all_features_te
 Test_labels = np.zeros(N_testing*3); Test_labels[0:N_testing] = 0; Test_labels[N_testing:2*N_testing] = 1; Test_labels[2*N_testing:3*N_testing] = 2
 
 #Plot histograms to figure out which features to use for next step
-
-for i in range(4):
-    plt.hist(class1_features[:, i], alpha = 0.5, label="Class 1")
-    plt.hist(class2_features[:, i], alpha = 0.5, label="Class 2")
-    plt.hist(class3_features[:, i], alpha = 0.5, label="Class 3")
-    plt.title("Feature " + str(i))
-    plt.legend()
-    plt.savefig("../TTT4275_CLASSIFICATION/Iris/results/Histogram_feature_" + str(i))
-    plt.cla()
-
+evaluation.generate_histograms_for_fetures(class1_features, class2_features, class3_features, 4)
 
 #Train the models
 #Model using all 4 features

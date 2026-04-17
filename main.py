@@ -8,7 +8,7 @@ def main():
     iris_dir = os.path.join(root, "Iris")
     numbers_dir = os.path.join(root, "Numbers")
     env["PYTHONPATH"] = os.pathsep.join([root, iris_dir, numbers_dir])
-    subprocess.run([sys.executable, "Iris/scripts/iris_classification.py"], env=env)
+    subprocess.run([sys.executable, "Iris/iris_classification.py"], env=env)
     subprocess.run([sys.executable, "Numbers/numbers_classification.py"], env=env)
 
 
