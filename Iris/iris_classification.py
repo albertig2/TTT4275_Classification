@@ -20,15 +20,17 @@ model.plot_feature_histograms(class_features, "seperability_histograms", 8)
 
 #Plot reasoning for choosing alpha = 0.01
 step_sizes = [10**(-i) for i in range(6)]
-model.plot_step_size_sensitivities(X_training, target_training, step_sizes, 10_000, "tuning/alpha_tuning")
+# model.plot_step_size_sensitivities(X_training, target_training, step_sizes, 1000, "tuning/alpha_tuning") #Set to 1000 for your sake; 10_000 takes a while...
   
 
 features_combinations = [range(0,5), range(1, 5), range(2, 5), range(3, 5)]
 
+ITERATIONS = 10_000
+ALPHA = 0.01
 #Train and evaluate ALL the models that uses the first 30 samples as a training set
-model.train_and_evaluate(X_training, X_testing, features_combinations, target_training, test_labels, "Iris/results/default_training_set")
+model.train_and_evaluate(X_training, X_testing, features_combinations, target_training, test_labels, ITERATIONS, ALPHA, "Iris/results/default_training_set")
 
 # #Train and evaluate the model that uses the last 30 samples as a training set 
-model.train_and_evaluate(X_training_last_30, X_testing_first_20, [features_combinations[0]], target_training, test_labels, "Iris/results/last_30_training_set")
+model.train_and_evaluate(X_training_last_30, X_testing_first_20, [features_combinations[0]], target_training, test_labels, ITERATIONS, ALPHA, "Iris/results/last_30_training_set")
 
 

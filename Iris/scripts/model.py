@@ -22,7 +22,7 @@ def grad_MSE(G, T, X):
     delta = (G - T) * G * (1 - G)
     return delta @ X.T 
 
-def train_model(X, T):
+def train_model(X, T, iterations, alpha):
     """
     Trains the model W based on the input data X and the solution provided by T.
     Output: Trained matrix W
@@ -30,20 +30,12 @@ def train_model(X, T):
     DIM = np.shape(X)[0] - 1; C = np.shape(T)[0]
     W = np.zeros((C, DIM + 1)) 
     G = 1 / (1 + np.exp(-W @ X))
-
-    alpha = 0.001
-    tresh = 10**(-6)
-    prev_err = 1000000; curr_err = 0.9*prev_err
-    rel_err = (prev_err - curr_err) / curr_err
-
-    while (rel_err > tresh):
+    
+    for i in range(iterations):
         W = W - alpha * grad_MSE(G, T, X)
         Z = W @ X
         G = 1 / (1 + np.exp(-Z))
-        prev_err = curr_err
-        curr_err = MSE(G, T)
-        rel_err = (prev_err - curr_err) / curr_err
-        # print(MSE(G, T))
+        # print(i, MSE(G, T))
     return W
 
 def get_predicted_classes(X, W):
@@ -55,18 +47,18 @@ def get_predicted_classes(X, W):
     C = np.argmax(G, axis=0) 
     return C
 
-def train_and_evaluate(X_train, X_test, feature_subsets, target_training, test_labels, results_path):
+def train_and_evaluate(X_train, X_test, feature_subsets, target_training, test_labels, iterations, alpha, results_path):
     DIM = np.shape(X_train)[0] - 1
     for i, features in enumerate(feature_subsets):
-        W = train_model(X_train[features, :], target_training)
+        W = train_model(X_train[features, :], target_training, iterations, alpha)
         predicted_labels = get_predicted_classes(X_test[features, :], W)
         n_features = DIM - i
         C = np.shape(target_training)[0]
-        generate_confusion_matrix_and_error_rates(
-            test_labels, predicted_labels,
+        generate_confusion_matrix_and_error_rates( # + 1 to make class "0" become class 1 as described in the report.
+            test_labels+1, predicted_labels+1,
             f"Classifier performance using {n_features} features",
             f"{results_path}/confusion_matrix_{n_features}_features.png",
-            range(C)
+            range(1, C+1)
         )
 
 def plot_feature_histograms(class_features, folder, BINS = 10):
