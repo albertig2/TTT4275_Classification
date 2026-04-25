@@ -43,6 +43,7 @@ def train_model(X, T):
         prev_err = curr_err
         curr_err = MSE(G, T)
         rel_err = (prev_err - curr_err) / curr_err
+        # print(MSE(G, T))
     return W
 
 def get_predicted_classes(X, W):
@@ -82,3 +83,42 @@ def plot_feature_histograms(class_features, folder, BINS = 10):
         plt.legend()
         plt.savefig(join(dirname(dirname(__file__)), 'results', folder, "Histogram_feature_" + str(i)))
         plt.cla()
+
+def evaluate_step_sizes(X, T, step_sizes, iterations):
+    """
+    Trains the model for different step sizes and returns the final MSE for each.
+    Input: Training data X, targets T, and an iterable of step sizes to evaluate.
+    Output: Tuple of (step_sizes, final_MSE_values)
+    """
+    all_mses = []
+    for alpha in step_sizes:
+        DIM = np.shape(X)[0] - 1; C = np.shape(T)[0]
+        W = np.zeros((C, DIM + 1))
+        G = 1 / (1 + np.exp(-W @ X))
+
+        tresh = 10**(-6)
+        prev_err = 1000000; curr_err = 0.9*prev_err
+        rel_err = (prev_err - curr_err) / curr_err
+        mses = []
+        for i in range(iterations):
+            W = W - alpha * grad_MSE(G, T, X)
+            G = 1 / (1 + np.exp(-W @ X))
+            prev_err = curr_err
+            curr_err = MSE(G, T)
+            rel_err = (prev_err - curr_err) / curr_err
+            mses.append((MSE(G, T)))
+        all_mses.append(mses)
+    return all_mses
+
+def plot_step_size_sensitivities(X, T, step_sizes, iterations, path):
+    step_sizes = [10**(-i) for i in range(6)]
+    ITERATIONS = 1000
+    all_mses = evaluate_step_sizes(X, T, step_sizes, iterations)
+    for i in range(len(step_sizes)):
+        plt.plot(all_mses[i], label=fr"$\alpha = {step_sizes[i]}$")
+        plt.title("Speed of convergence for different step-sizes")
+        plt.xlabel("Iteration number")
+        plt.ylabel("MSE")
+        plt.legend()
+    # plt.show()
+    plt.savefig(join(dirname(dirname(__file__)), 'results', path))
